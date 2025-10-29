@@ -1,4 +1,4 @@
-# Welcome to Crypto Gaming Project!
+# Welcome to Crypto Gaming!
 
 ## Project info
 
