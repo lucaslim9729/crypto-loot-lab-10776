@@ -53,7 +53,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section
-        className="relative h-screen flex items-center justify-center overflow-hidden"
+        className="relative h-screen flex items-center justify-center overflow-visible"
         style={{
           backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)), url(${heroImage})`,
           backgroundSize: "cover",
