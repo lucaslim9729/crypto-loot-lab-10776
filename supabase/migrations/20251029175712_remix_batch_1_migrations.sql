@@ -1,3 +1,5 @@
+
+-- Migration: 20251028160323
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
