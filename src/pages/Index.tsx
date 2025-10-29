@@ -61,7 +61,7 @@ const Index = () => {
         }}
       >
         <div className="container mx-auto px-4 text-center z-10">
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent animate-fade-in">
+          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent animate-fade-in leading-tight py-2">
             Win Big with Crypto
           </h1>
           <p className="text-xl md:text-2xl text-foreground/80 mb-8 max-w-2xl mx-auto">
