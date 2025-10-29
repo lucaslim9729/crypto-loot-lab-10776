@@ -91,7 +91,7 @@ const Index = () => {
       {/* Games Section */}
       <section className="py-20 px-4 bg-gradient-to-b from-background to-card">
         <div className="container mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 bg-gradient-primary bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-4 py-3 bg-gradient-primary bg-clip-text text-transparent">
             Choose Your Game
           </h2>
           <p className="text-center text-muted-foreground mb-12 text-lg">
@@ -127,7 +127,7 @@ const Index = () => {
       {/* Features Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-primary bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-12 py-3 bg-gradient-primary bg-clip-text text-transparent">
             Why Choose Us
           </h2>
 
@@ -151,7 +151,7 @@ const Index = () => {
       {/* CTA Section */}
       <section className="py-20 px-4 bg-gradient-primary">
         <div className="container mx-auto text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-primary-foreground">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6  py-3 text-primary-foreground">
             Ready to Start Winning?
           </h2>
           <p className="text-xl mb-8 text-primary-foreground/80">
