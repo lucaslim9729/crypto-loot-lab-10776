@@ -39,8 +39,8 @@ export const UserBalance = () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    const { data } = await supabase
-      .from("profiles" as any)
+    const { data } = await (supabase as any)
+      .from("profiles")
       .select("balance, total_wagered, total_won")
       .eq("id", user.id)
       .single();

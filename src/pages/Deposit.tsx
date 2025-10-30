@@ -51,8 +51,8 @@ const Deposit = () => {
 
     setUser(user);
 
-    const { data: profileData } = await supabase
-      .from("profiles" as any)
+    const { data: profileData } = await (supabase as any)
+      .from("profiles")
       .select("balance")
       .eq("id", user.id)
       .single();
@@ -88,14 +88,13 @@ const Deposit = () => {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase.from("deposits" as any).insert({
+      const { error } = await (supabase as any).from("deposits").insert({
         user_id: user.id,
         amount: depositAmount,
         currency: "USDT",
         network: selectedNetwork,
         tx_hash: txHash,
         status: "pending",
-        verification_type: "manual",
       });
 
       if (error) throw error;

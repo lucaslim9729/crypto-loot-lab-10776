@@ -40,7 +40,7 @@ const Lottery = () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    await supabase.from("game_history" as any).insert({
+    await (supabase as any).from("game_history").insert({
       user_id: user.id,
       game_type: "lottery",
       bet_amount: bet,
