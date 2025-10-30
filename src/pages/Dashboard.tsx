@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AnnouncementTicker } from "@/components/AnnouncementTicker";
 import { UserBalance } from "@/components/UserBalance";
-import { LogOut, Wallet, Users, LifeBuoy, Gift } from "lucide-react";
+import { LogOut, Wallet, Users, LifeBuoy, Gift, TrendingUp, TrendingDown } from "lucide-react";
 import { toast } from "sonner";
 import lotteryIcon from "@/assets/lottery-icon.png";
 import scratchIcon from "@/assets/scratch-icon.png";
@@ -67,11 +67,34 @@ const Dashboard = () => {
           </h1>
           <div className="flex items-center gap-4">
             {profile && (
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-gradient-primary rounded-lg">
-                <Wallet className="h-4 w-4 text-primary-foreground" />
-                <span className="font-bold text-primary-foreground">
-                  ${profile.balance?.toFixed(2) || '0.00'}
-                </span>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 px-4 py-2 bg-gradient-primary rounded-lg">
+                  <Wallet className="h-4 w-4 text-primary-foreground" />
+                  <div className="flex flex-col">
+                    <span className="text-xs text-primary-foreground/80">Balance</span>
+                    <span className="font-bold text-primary-foreground">
+                      ${profile.balance?.toFixed(2) || '0.00'}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-gradient-card border border-border rounded-lg">
+                  <TrendingDown className="h-4 w-4 text-destructive" />
+                  <div className="flex flex-col">
+                    <span className="text-xs text-muted-foreground">Wagered</span>
+                    <span className="font-semibold text-foreground">
+                      ${profile.total_wagered?.toFixed(2) || '0.00'}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-gradient-card border border-border rounded-lg">
+                  <TrendingUp className="h-4 w-4 text-accent" />
+                  <div className="flex flex-col">
+                    <span className="text-xs text-muted-foreground">Won</span>
+                    <span className="font-semibold text-foreground">
+                      ${profile.total_won?.toFixed(2) || '0.00'}
+                    </span>
+                  </div>
+                </div>
               </div>
             )}
             <span className="text-muted-foreground">
