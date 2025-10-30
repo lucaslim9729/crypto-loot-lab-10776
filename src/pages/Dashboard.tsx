@@ -121,7 +121,7 @@ const Dashboard = () => {
             className="h-20 bg-gradient-primary hover:shadow-glow-primary"
             onClick={() => navigate("/deposit")}
           >
-            <Wallet className="mr-2 h-5 w-5" />
+            <Wallet className="mr-2 h-7 w-7" />
             Deposit
           </Button>
           <Button
@@ -129,7 +129,7 @@ const Dashboard = () => {
             className="h-20"
             onClick={() => navigate("/withdraw")}
           >
-            <Wallet className="mr-2 h-5 w-5" />
+            <Wallet className="mr-2 h-7 w-7" />
             Withdraw
           </Button>
           <Button
@@ -137,7 +137,7 @@ const Dashboard = () => {
             className="h-20"
             onClick={() => navigate("/referral")}
           >
-            <Users className="mr-2 h-5 w-5" />
+            <Users className="mr-2 h-7 w-7" />
             Referrals
           </Button>
           <Button
@@ -145,7 +145,7 @@ const Dashboard = () => {
             className="h-20"
             onClick={() => navigate("/support")}
           >
-            <LifeBuoy className="mr-2 h-5 w-5" />
+            <LifeBuoy className="mr-2 h-7 w-7" />
             Support
           </Button>
         </div>
