@@ -14,16 +14,407 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      announcements: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_active: boolean | null
+          message: string
+          type: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          message: string
+          type?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_active?: boolean | null
+          message?: string
+          type?: string | null
+        }
+        Relationships: []
+      }
+      deposits: {
+        Row: {
+          amount: number
+          created_at: string | null
+          currency: string | null
+          id: string
+          network: string | null
+          status: string | null
+          tx_hash: string | null
+          user_id: string
+          verification_type: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          network?: string | null
+          status?: string | null
+          tx_hash?: string | null
+          user_id: string
+          verification_type?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          network?: string | null
+          status?: string | null
+          tx_hash?: string | null
+          user_id?: string
+          verification_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "deposits_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      game_history: {
+        Row: {
+          bet_amount: number
+          created_at: string | null
+          game_type: string
+          id: string
+          payout: number | null
+          result: Json | null
+          user_id: string
+        }
+        Insert: {
+          bet_amount: number
+          created_at?: string | null
+          game_type: string
+          id?: string
+          payout?: number | null
+          result?: Json | null
+          user_id: string
+        }
+        Update: {
+          bet_amount?: number
+          created_at?: string | null
+          game_type?: string
+          id?: string
+          payout?: number | null
+          result?: Json | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "game_history_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          balance: number
+          created_at: string | null
+          id: string
+          is_admin: boolean | null
+          referral_code: string
+          referred_by: string | null
+          total_wagered: number
+          total_won: number
+          username: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string | null
+          id: string
+          is_admin?: boolean | null
+          referral_code: string
+          referred_by?: string | null
+          total_wagered?: number
+          total_won?: number
+          username: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string | null
+          id?: string
+          is_admin?: boolean | null
+          referral_code?: string
+          referred_by?: string | null
+          total_wagered?: number
+          total_won?: number
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_referred_by_fkey"
+            columns: ["referred_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      raffle_tickets: {
+        Row: {
+          created_at: string | null
+          id: string
+          raffle_id: string
+          ticket_number: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          raffle_id: string
+          ticket_number: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          raffle_id?: string
+          ticket_number?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "raffle_tickets_raffle_id_fkey"
+            columns: ["raffle_id"]
+            isOneToOne: false
+            referencedRelation: "raffles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "raffle_tickets_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      raffles: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          draw_date: string
+          id: string
+          prizes: Json
+          sold_tickets: number | null
+          status: string | null
+          ticket_price: number
+          title: string
+          total_tickets: number
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          draw_date: string
+          id?: string
+          prizes: Json
+          sold_tickets?: number | null
+          status?: string | null
+          ticket_price: number
+          title: string
+          total_tickets: number
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          draw_date?: string
+          id?: string
+          prizes?: Json
+          sold_tickets?: number | null
+          status?: string | null
+          ticket_price?: number
+          title?: string
+          total_tickets?: number
+        }
+        Relationships: []
+      }
+      support_tickets: {
+        Row: {
+          created_at: string | null
+          id: string
+          message: string
+          priority: string | null
+          status: string | null
+          subject: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          message: string
+          priority?: string | null
+          status?: string | null
+          subject: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          message?: string
+          priority?: string | null
+          status?: string | null
+          subject?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "support_tickets_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ticket_replies: {
+        Row: {
+          created_at: string | null
+          id: string
+          is_staff: boolean | null
+          message: string
+          ticket_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          is_staff?: boolean | null
+          message: string
+          ticket_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          is_staff?: boolean | null
+          message?: string
+          ticket_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_replies_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "support_tickets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ticket_replies_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          granted_at: string | null
+          granted_by: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          granted_at?: string | null
+          granted_by?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          granted_at?: string | null
+          granted_by?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      withdrawals: {
+        Row: {
+          amount: number
+          created_at: string | null
+          currency: string | null
+          id: string
+          network: string | null
+          status: string | null
+          user_id: string
+          wallet_address: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          network?: string | null
+          status?: string | null
+          user_id: string
+          wallet_address: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          currency?: string | null
+          id?: string
+          network?: string | null
+          status?: string | null
+          user_id?: string
+          wallet_address?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "withdrawals_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_referral_code: { Args: never; Returns: string }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      play_game: {
+        Args: {
+          _bet_amount: number
+          _game_type: string
+          _payout: number
+          _result?: Json
+        }
+        Returns: string
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "moderator" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +541,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "moderator", "user"],
+    },
   },
 } as const
