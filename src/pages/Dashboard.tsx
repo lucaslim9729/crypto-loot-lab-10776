@@ -71,7 +71,7 @@ const Dashboard = () => {
                 <div className="flex items-center gap-2 px-4 py-2 bg-gradient-primary rounded-lg">
                   <Wallet className="h-4 w-4 text-primary-foreground" />
                   <div className="flex flex-col">
-                    <span className="text-xs text-primary-foreground/80">Balance</span>
+                    {/* <span className="text-xs text-primary-foreground/80">Balance</span> */}
                     <span className="font-bold text-primary-foreground">
                       ${profile.balance?.toFixed(2) || '0.00'}
                     </span>
