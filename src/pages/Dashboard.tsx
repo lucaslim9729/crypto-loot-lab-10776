@@ -47,7 +47,7 @@ const Dashboard = () => {
   };
 
   const games = [
-    { title: "Lottery", icon: lotteryIcon, path: "/games/lottery" },
+    { title: "Lottery Game", icon: lotteryIcon, path: "/games/lottery" },
     { title: "Scratch Card", icon: scratchIcon, path: "/games/scratch" },
     { title: "Endless Runner", icon: runnerIcon, path: "/games/runner" },
     { title: "Mystery Chest", icon: chestIcon, path: "/games/chest" },
