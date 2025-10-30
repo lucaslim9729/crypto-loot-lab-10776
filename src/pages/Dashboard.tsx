@@ -66,6 +66,14 @@ const Dashboard = () => {
             Crypto Gaming
           </h1>
           <div className="flex items-center gap-4">
+            {profile && (
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-gradient-primary rounded-lg">
+                <Wallet className="h-4 w-4 text-primary-foreground" />
+                <span className="font-bold text-primary-foreground">
+                  ${profile.balance?.toFixed(2) || '0.00'}
+                </span>
+              </div>
+            )}
             <span className="text-muted-foreground">
               {profile?.username || user.email}
             </span>
