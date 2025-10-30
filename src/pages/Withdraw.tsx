@@ -54,7 +54,7 @@ const Withdraw = () => {
     setUser(user);
 
     const { data: profileData } = await supabase
-      .from("profiles")
+      .from("profiles" as any)
       .select("balance, total_wagered, total_won")
       .eq("id", user.id)
       .single();
@@ -101,7 +101,7 @@ const Withdraw = () => {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase.from("withdrawals").insert({
+      const { error } = await supabase.from("withdrawals" as any).insert({
         user_id: user.id,
         amount: withdrawAmount,
         currency: "USDT",

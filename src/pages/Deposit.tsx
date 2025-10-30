@@ -52,7 +52,7 @@ const Deposit = () => {
     setUser(user);
 
     const { data: profileData } = await supabase
-      .from("profiles")
+      .from("profiles" as any)
       .select("balance")
       .eq("id", user.id)
       .single();
@@ -88,7 +88,7 @@ const Deposit = () => {
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase.from("deposits").insert({
+      const { error } = await supabase.from("deposits" as any).insert({
         user_id: user.id,
         amount: depositAmount,
         currency: "USDT",

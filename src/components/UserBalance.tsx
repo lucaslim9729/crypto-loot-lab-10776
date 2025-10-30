@@ -40,7 +40,7 @@ export const UserBalance = () => {
     if (!user) return;
 
     const { data } = await supabase
-      .from("profiles")
+      .from("profiles" as any)
       .select("balance, total_wagered, total_won")
       .eq("id", user.id)
       .single();

@@ -36,7 +36,7 @@ export const AnnouncementTicker = () => {
 
   const fetchAnnouncements = async () => {
     const { data } = await supabase
-      .from("announcements")
+      .from("announcements" as any)
       .select("*")
       .eq("is_active", true)
       .order("created_at", { ascending: false })
