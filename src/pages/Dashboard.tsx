@@ -63,7 +63,7 @@ const Dashboard = () => {
       <header className="bg-card border-b border-border px-6 py-4">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-            Crypto Gaming
+            CryptoGaming
           </h1>
           <div className="flex items-center gap-4">
             {profile && (
