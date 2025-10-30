@@ -77,7 +77,7 @@ const Dashboard = () => {
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-gradient-card border border-border rounded-lg">
+                {/* <div className="flex items-center gap-2 px-4 py-2 bg-gradient-card border border-border rounded-lg">
                   <TrendingDown className="h-4 w-4 text-destructive" />
                   <div className="flex flex-col">
                     <span className="text-xs text-muted-foreground">Wagered</span>
@@ -94,7 +94,7 @@ const Dashboard = () => {
                       ${profile.total_won?.toFixed(2) || '0.00'}
                     </span>
                   </div>
-                </div>
+                </div> */}
               </div>
             )}
             <span className="text-muted-foreground">
