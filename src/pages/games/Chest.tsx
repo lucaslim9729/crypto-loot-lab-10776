@@ -63,7 +63,7 @@ const Chest = () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    await (supabase as any).from("game_history").insert({
+    await supabase.from("game_history" as any).insert({
       user_id: user.id,
       game_type: "chest",
       bet_amount: bet,

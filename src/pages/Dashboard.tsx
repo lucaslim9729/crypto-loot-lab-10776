@@ -31,8 +31,8 @@ const Dashboard = () => {
 
     setUser(user);
 
-    const { data: profileData } = await (supabase as any)
-      .from("profiles")
+    const { data: profileData } = await supabase
+      .from("profiles" as any)
       .select("*")
       .eq("id", user.id)
       .single();
@@ -98,7 +98,7 @@ const Dashboard = () => {
               </div>
             )}
             <span className="text-muted-foreground">
-              {profile?.username}
+              {profile?.username || user.email}
             </span>
             <Button
               variant="outline"
