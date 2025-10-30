@@ -8,6 +8,26 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ArrowLeft, Shield, Clock, AlertCircle, Wallet, TrendingUp, Trophy } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { z } from "zod";
+
+// MISSION 2: Cryptocurrency address validation
+const isTronAddress = (addr: string) => /^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(addr);
+const isBscAddress = (addr: string) => /^0x[a-fA-F0-9]{40}$/.test(addr);
+
+// MISSION 6: Comprehensive numeric validation for withdrawals
+const withdrawSchema = z.object({
+  amount: z.number()
+    .positive("Amount must be positive")
+    .finite("Amount must be a valid number")
+    .min(10, "Minimum withdrawal is $10")
+    .max(1000000, "Maximum withdrawal is $1,000,000")
+    .transform(val => Math.round(val * 100) / 100),
+  walletAddress: z.string()
+    .trim()
+    .min(34, "Wallet address is too short")
+    .max(42, "Wallet address is too long"),
+  network: z.enum(["TRC-20", "BEP-20"]),
+});
 
 const Withdraw = () => {
   const navigate = useNavigate();
@@ -54,7 +74,7 @@ const Withdraw = () => {
     setUser(user);
 
     const { data: profileData } = await supabase
-      .from("profiles" as any)
+      .from("profiles")
       .select("balance, total_wagered, total_won")
       .eq("id", user.id)
       .single();
@@ -82,37 +102,52 @@ const Withdraw = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!withdrawAmount || withdrawAmount < selectedNetworkData.minWithdraw) {
-      toast.error(`Minimum withdrawal is $${selectedNetworkData.minWithdraw}`);
+
+    // Validate wallet address format based on network
+    if (selectedNetwork === "TRC-20" && !isTronAddress(walletAddress.trim())) {
+      toast.error("Invalid Tron (TRC-20) wallet address. Must start with 'T' and be 34 characters.");
       return;
     }
 
-    if (withdrawAmount > balance) {
-      toast.error("Insufficient balance");
+    if (selectedNetwork === "BEP-20" && !isBscAddress(walletAddress.trim())) {
+      toast.error("Invalid BSC (BEP-20) wallet address. Must start with '0x' and be 42 characters.");
       return;
     }
 
-    if (!walletAddress.trim()) {
-      toast.error("Please enter your wallet address");
+    // Validate with zod schema
+    const validation = withdrawSchema.safeParse({
+      amount: parseFloat(amount),
+      walletAddress: walletAddress,
+      network: selectedNetwork,
+    });
+
+    if (!validation.success) {
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
+
+    const { amount: validatedAmount, walletAddress: validatedAddress } = validation.data;
+
+    if (validatedAmount > balance) {
+      toast.error(`Insufficient balance. You have $${balance.toFixed(2)}`);
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase.from("withdrawals" as any).insert({
+      const { error } = await supabase.from("withdrawals").insert({
         user_id: user.id,
-        amount: withdrawAmount,
+        amount: validatedAmount,
         currency: "USDT",
         network: selectedNetwork,
-        wallet_address: walletAddress,
+        wallet_address: validatedAddress,
         status: "pending",
       });
 
       if (error) throw error;
 
-      toast.success("Withdrawal request submitted! Processing in progress...");
+      toast.success("Withdrawal request submitted!");
       setAmount("");
       setWalletAddress("");
       

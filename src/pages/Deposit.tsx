@@ -8,6 +8,26 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ArrowLeft, Copy, Shield, Clock, AlertCircle, Wallet } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { z } from "zod";
+
+// MISSION 2: Cryptocurrency address validation
+const isTronAddress = (addr: string) => /^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(addr);
+const isBscAddress = (addr: string) => /^0x[a-fA-F0-9]{40}$/.test(addr);
+
+// MISSION 6: Comprehensive numeric validation
+const depositSchema = z.object({
+  amount: z.number()
+    .positive("Amount must be positive")
+    .finite("Amount must be a valid number")
+    .min(10, "Minimum deposit is $10")
+    .max(1000000, "Maximum deposit is $1,000,000")
+    .transform(val => Math.round(val * 100) / 100),
+  txHash: z.string()
+    .trim()
+    .min(32, "Transaction hash must be at least 32 characters")
+    .max(128, "Transaction hash is too long"),
+  network: z.enum(["TRC-20", "BEP-20"]),
+});
 
 const Deposit = () => {
   const navigate = useNavigate();
@@ -52,7 +72,7 @@ const Deposit = () => {
     setUser(user);
 
     const { data: profileData } = await supabase
-      .from("profiles" as any)
+      .from("profiles")
       .select("balance")
       .eq("id", user.id)
       .single();
@@ -71,29 +91,41 @@ const Deposit = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const depositAmount = parseFloat(amount);
-    const selectedNetworkData = networks[selectedNetwork as keyof typeof networks];
 
-    if (!depositAmount || depositAmount < selectedNetworkData.minDeposit) {
-      toast.error(`Minimum deposit is $${selectedNetworkData.minDeposit}`);
+    // Validate transaction hash format based on network
+    if (selectedNetwork === "TRC-20" && !isTronAddress(txHash.trim())) {
+      toast.error("Invalid Tron (TRC-20) transaction hash format. Must start with 'T' and be 34 characters.");
       return;
     }
 
-    if (!txHash.trim()) {
-      toast.error("Please enter the transaction hash");
+    if (selectedNetwork === "BEP-20" && !isBscAddress(txHash.trim())) {
+      toast.error("Invalid BSC (BEP-20) transaction hash format. Must start with '0x' and be 42 characters.");
       return;
     }
+
+    // Validate with zod schema
+    const validation = depositSchema.safeParse({
+      amount: parseFloat(amount),
+      txHash: txHash,
+      network: selectedNetwork,
+    });
+
+    if (!validation.success) {
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
+
+    const { amount: validatedAmount, txHash: validatedTxHash } = validation.data;
 
     setIsSubmitting(true);
 
     try {
-      const { error } = await supabase.from("deposits" as any).insert({
+      const { error } = await supabase.from("deposits").insert({
         user_id: user.id,
-        amount: depositAmount,
+        amount: validatedAmount,
         currency: "USDT",
         network: selectedNetwork,
-        tx_hash: txHash,
+        tx_hash: validatedTxHash,
         status: "pending",
         verification_type: "manual",
       });
@@ -156,7 +188,6 @@ const Deposit = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Payment Methods */}
           <Card className="bg-gradient-card border-border">
             <CardHeader>
               <CardTitle className="text-2xl">Select Payment Method</CardTitle>
