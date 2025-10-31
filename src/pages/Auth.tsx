@@ -40,6 +40,8 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [verificationCode, setVerificationCode] = useState("");
+  const [awaitingVerification, setAwaitingVerification] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,10 +94,36 @@ const Auth = () => {
 
       if (error) throw error;
 
-      toast.success("Account created! Logging you in...");
-      navigate("/dashboard");
+      setAwaitingVerification(true);
+      toast.success("Verification code sent! Check your email.");
     } catch (error: any) {
       toast.error(error.message || "Failed to create account");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.auth.verifyOtp({
+        email,
+        token: verificationCode,
+        type: 'signup'
+      });
+
+      if (error) throw error;
+
+      toast.success("Email verified! You can now log in.");
+      setAwaitingVerification(false);
+      setVerificationCode("");
+      // Switch to login tab
+      const loginTab = document.querySelector('[value="login"]') as HTMLButtonElement;
+      loginTab?.click();
+    } catch (error: any) {
+      toast.error(error.message || "Invalid verification code");
     } finally {
       setLoading(false);
     }
@@ -161,58 +189,110 @@ const Auth = () => {
           </TabsContent>
 
           <TabsContent value="signup">
-            <form onSubmit={handleSignup} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="signup-username">Username</Label>
-                <Input
-                  id="signup-username"
-                  type="text"
-                  placeholder="Choose a username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
-              </div>
+            {!awaitingVerification ? (
+              <form onSubmit={handleSignup} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="signup-username">Username</Label>
+                  <Input
+                    id="signup-username"
+                    type="text"
+                    placeholder="Choose a username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="signup-email">Email</Label>
-                <Input
-                  id="signup-email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-email">Email</Label>
+                  <Input
+                    id="signup-email"
+                    type="email"
+                    placeholder="your@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="signup-password">Password (12+ chars with uppercase, lowercase, number, special char)</Label>
-                <Input
-                  id="signup-password"
-                  type="password"
-                  placeholder="Create a strong password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
+                <div className="space-y-2">
+                  <Label htmlFor="signup-password">Password (12+ chars with uppercase, lowercase, number, special char)</Label>
+                  <Input
+                    id="signup-password"
+                    type="password"
+                    placeholder="Create a strong password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
 
-              <Button
-                type="submit"
-                className="w-full bg-gradient-primary hover:shadow-glow-primary"
-                disabled={loading}
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Creating account...
-                  </>
-                ) : (
-                  "Sign Up"
-                )}
-              </Button>
-            </form>
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-primary hover:shadow-glow-primary"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creating account...
+                    </>
+                  ) : (
+                    "Sign Up"
+                  )}
+                </Button>
+              </form>
+            ) : (
+              <form onSubmit={handleVerifyCode} className="space-y-4">
+                <div className="text-center mb-4 p-4 bg-accent/10 rounded-lg">
+                  <p className="text-sm text-muted-foreground">
+                    Verification code sent to
+                  </p>
+                  <p className="font-semibold text-foreground mt-1">{email}</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="verification-code">Verification Code</Label>
+                  <Input
+                    id="verification-code"
+                    type="text"
+                    placeholder="Enter 6-digit code"
+                    value={verificationCode}
+                    onChange={(e) => setVerificationCode(e.target.value)}
+                    required
+                    maxLength={6}
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-primary hover:shadow-glow-primary"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Verifying...
+                    </>
+                  ) : (
+                    "Verify Email"
+                  )}
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="w-full"
+                  onClick={() => {
+                    setAwaitingVerification(false);
+                    setVerificationCode("");
+                  }}
+                  disabled={loading}
+                >
+                  Back to Sign Up
+                </Button>
+              </form>
+            )}
           </TabsContent>
         </Tabs>
       </Card>
