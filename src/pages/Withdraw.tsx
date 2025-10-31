@@ -202,10 +202,13 @@ const Withdraw = () => {
 
         {/* Account Summary */}
         <div className="grid md:grid-cols-3 gap-4 mb-8">
-          <Card className="bg-gradient-card border-border">
+          <Card className="bg-gradient-card border-border hover:scale-105 transition-all group">
             <CardContent className="pt-6">
               <div className="flex items-center gap-3">
-                <Wallet className="h-8 w-8 text-primary" />
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-primary rounded-full blur-lg opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                  <Wallet className="h-10 w-10 text-primary relative z-10 icon-gradient" />
+                </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Available Balance</p>
                   <p className="text-2xl font-bold text-foreground">${balance.toFixed(2)}</p>
@@ -214,10 +217,13 @@ const Withdraw = () => {
             </CardContent>
           </Card>
           
-          <Card className="bg-gradient-card border-border">
+          <Card className="bg-gradient-card border-border hover:scale-105 transition-all group">
             <CardContent className="pt-6">
               <div className="flex items-center gap-3">
-                <TrendingUp className="h-8 w-8 text-accent" />
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-gold rounded-full blur-lg opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                  <TrendingUp className="h-10 w-10 text-accent relative z-10 icon-accent" />
+                </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Total Wagered</p>
                   <p className="text-2xl font-bold text-foreground">${totalWagered.toFixed(2)}</p>
@@ -226,10 +232,13 @@ const Withdraw = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-card border-border">
+          <Card className="bg-gradient-card border-border hover:scale-105 transition-all group">
             <CardContent className="pt-6">
               <div className="flex items-center gap-3">
-                <Trophy className="h-8 w-8 text-primary" />
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-primary rounded-full blur-lg opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                  <Trophy className="h-10 w-10 text-primary relative z-10 icon-gradient" />
+                </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Total Won</p>
                   <p className="text-2xl font-bold text-foreground">${totalWon.toFixed(2)}</p>
@@ -276,15 +285,15 @@ const Withdraw = () => {
               {/* Security Features */}
               <div className="mt-6 space-y-4">
                 <div className="flex items-center gap-3 text-sm">
-                  <Shield className="h-5 w-5 text-primary" />
+                  <Shield className="h-6 w-6 text-primary icon-gradient" />
                   <span className="text-muted-foreground">Multi-signature wallets</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
-                  <Clock className="h-5 w-5 text-primary" />
+                  <Clock className="h-6 w-6 text-primary icon-gradient" />
                   <span className="text-muted-foreground">Fast processing times</span>
                 </div>
                 <div className="flex items-center gap-3 text-sm">
-                  <Shield className="h-5 w-5 text-primary" />
+                  <Shield className="h-6 w-6 text-primary icon-gradient" />
                   <span className="text-muted-foreground">24/7 Support</span>
                 </div>
               </div>

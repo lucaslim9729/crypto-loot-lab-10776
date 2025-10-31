@@ -223,7 +223,7 @@ const Deposit = () => {
               {/* Important Information */}
               <div className="mt-6 bg-accent/10 border border-accent/20 rounded-lg p-4">
                 <div className="flex items-start gap-2">
-                  <AlertCircle className="h-5 w-5 text-accent mt-0.5" />
+                  <AlertCircle className="h-6 w-6 text-accent mt-0.5 icon-accent" />
                   <div>
                     <h4 className="font-bold text-foreground mb-2">Important Information</h4>
                     <ul className="text-sm text-muted-foreground space-y-1">
@@ -321,7 +321,7 @@ const Deposit = () => {
                 {/* Security Notice */}
                 <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
                   <div className="flex items-center gap-2 mb-2">
-                    <Shield className="h-5 w-5 text-primary" />
+                    <Shield className="h-6 w-6 text-primary icon-gradient" />
                     <h4 className="font-bold text-foreground">Secure Transaction</h4>
                   </div>
                   <p className="text-sm text-muted-foreground">
