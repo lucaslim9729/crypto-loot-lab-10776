@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ArrowLeft } from "lucide-react";
 import { MessageSquare, Users } from "lucide-react";
 import SocialFeed from "@/components/social/SocialFeed";
 import GlobalChat from "@/components/social/GlobalChat";
