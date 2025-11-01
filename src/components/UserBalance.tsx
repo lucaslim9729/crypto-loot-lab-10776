@@ -62,7 +62,7 @@ export const UserBalance = () => {
           </div>
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-gold rounded-full blur-xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
-            <DollorSign className="h-14 w-14 text-accent relative z-10 icon-accent" />
+            <DollarSign className="h-14 w-14 text-accent relative z-10 icon-accent" />
           </div>
         </div>
       </Card>
