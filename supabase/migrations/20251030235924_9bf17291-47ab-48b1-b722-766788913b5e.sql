@@ -6,6 +6,7 @@ CREATE OR REPLACE FUNCTION public.get_user_stats(_user_id uuid DEFAULT NULL)
 RETURNS TABLE (
   id uuid,
   username text,
+  useremail text,
   balance numeric,
   total_wagered numeric,
   total_won numeric,
@@ -28,6 +29,7 @@ BEGIN
     SELECT 
       p.id,
       p.username,
+      p.useremail,
       p.balance,
       p.total_wagered,
       p.total_won,
@@ -48,6 +50,7 @@ BEGIN
     SELECT 
       p.id,
       p.username,
+      p.useremail,
       p.balance,
       p.total_wagered,
       p.total_won,
