@@ -52,7 +52,7 @@ export const AdminUsers = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Username</TableHead>
-              <TableHead>Useremail</TableHead>
+              {/* <TableHead>Useremail</TableHead> */}
               <TableHead>Balance</TableHead>
               <TableHead>Wagered</TableHead>
               <TableHead>Won</TableHead>
@@ -64,7 +64,7 @@ export const AdminUsers = () => {
             {users.map((user) => (
               <TableRow key={user.id}>
                 <TableCell className="font-medium">{user.username}</TableCell>
-                <TableCell className="font-medium">{user.useremail}</TableCell>
+                {/* <TableCell className="font-medium">{user.useremail}</TableCell> */}
                 <TableCell>
                   <Badge variant="secondary">${Number(user.balance).toFixed(2)}</Badge>
                 </TableCell>
