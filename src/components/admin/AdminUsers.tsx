@@ -8,6 +8,7 @@ import { formatDistanceToNow } from "date-fns";
 interface User {
   id: string;
   username: string;
+  useremail: string;
   balance: number;
   total_wagered: number;
   total_won: number;
@@ -51,6 +52,7 @@ export const AdminUsers = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Username</TableHead>
+              <TableHead>Useremail</TableHead>
               <TableHead>Balance</TableHead>
               <TableHead>Wagered</TableHead>
               <TableHead>Won</TableHead>
@@ -62,6 +64,7 @@ export const AdminUsers = () => {
             {users.map((user) => (
               <TableRow key={user.id}>
                 <TableCell className="font-medium">{user.username}</TableCell>
+                <TableCell className="font-medium">{user.useremail}</TableCell>
                 <TableCell>
                   <Badge variant="secondary">${Number(user.balance).toFixed(2)}</Badge>
                 </TableCell>
