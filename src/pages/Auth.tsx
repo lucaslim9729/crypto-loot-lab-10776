@@ -42,8 +42,6 @@ const Auth = () => {
   const [username, setUsername] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const [awaitingVerification, setAwaitingVerification] = useState(false);
-  const [generatedCode, setGeneratedCode] = useState("");
-  const [pendingSignupData, setPendingSignupData] = useState<{ email: string; password: string; username: string } | null>(null);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,26 +83,21 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      // Generate 6-digit code
-      const code = Math.floor(100000 + Math.random() * 900000).toString();
-      setGeneratedCode(code);
-      setPendingSignupData({ 
-        email: validation.data.email, 
-        password: validation.data.password, 
-        username: validation.data.username 
+      const { data, error } = await supabase.auth.signUp({
+        email: validation.data.email,
+        password: validation.data.password,
+        options: {
+          data: { username: validation.data.username },
+          emailRedirectTo: `${window.location.origin}/dashboard`,
+        },
       });
 
-      // Send verification email via edge function
-      const { error: emailError } = await supabase.functions.invoke('send-verification-email', {
-        body: { email: validation.data.email, code }
-      });
-
-      if (emailError) throw emailError;
+      if (error) throw error;
 
       setAwaitingVerification(true);
       toast.success("Verification code sent! Check your email.");
     } catch (error: any) {
-      toast.error(error.message || "Failed to send verification code");
+      toast.error(error.message || "Failed to create account");
     } finally {
       setLoading(false);
     }
@@ -115,22 +108,10 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      if (verificationCode !== generatedCode) {
-        throw new Error("Invalid verification code");
-      }
-
-      if (!pendingSignupData) {
-        throw new Error("No pending signup data");
-      }
-
-      // Create the account after successful verification
-      const { error } = await supabase.auth.signUp({
-        email: pendingSignupData.email,
-        password: pendingSignupData.password,
-        options: {
-          data: { username: pendingSignupData.username },
-          emailRedirectTo: `${window.location.origin}/dashboard`,
-        },
+      const { error } = await supabase.auth.verifyOtp({
+        email,
+        token: verificationCode,
+        type: 'signup'
       });
 
       if (error) throw error;
@@ -138,8 +119,6 @@ const Auth = () => {
       toast.success("Email verified! You can now log in.");
       setAwaitingVerification(false);
       setVerificationCode("");
-      setGeneratedCode("");
-      setPendingSignupData(null);
       // Switch to login tab
       const loginTab = document.querySelector('[value="login"]') as HTMLButtonElement;
       loginTab?.click();
