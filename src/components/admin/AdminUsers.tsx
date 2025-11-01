@@ -8,7 +8,6 @@ import { formatDistanceToNow } from "date-fns";
 interface User {
   id: string;
   username: string;
-  useremail: string;
   balance: number;
   total_wagered: number;
   total_won: number;

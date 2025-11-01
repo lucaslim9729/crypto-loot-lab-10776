@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AnnouncementTicker } from "@/components/AnnouncementTicker";
 import { UserBalance } from "@/components/UserBalance";
-import { LogOut, Wallet, Users, LifeBuoy, Gift, TrendingUp, TrendingDown, Shield } from "lucide-react";
+import { LogOut, Wallet, Users, LifeBuoy, Gift, TrendingUp, TrendingDown, Shield, MessageSquare } from "lucide-react";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
 import lotteryPreview from "@/assets/lottery-preview.jpg";
@@ -189,6 +189,14 @@ const Dashboard = () => {
           >
             <LifeBuoy className="mr-2 h-8 w-8 text-primary icon-gradient group-hover:scale-150 transition-transform" />
             Support
+          </Button>
+          <Button
+            variant="outline"
+            className="h-20 group hover:text-lg hover:border-primary hover:bg-primary/25 hover:text-primary"
+            onClick={() => navigate("/social")}
+          >
+            <MessageSquare className="mr-2 h-8 w-8 text-primary icon-gradient group-hover:scale-150 transition-transform" />
+            Social
           </Button>
         </div>
 
